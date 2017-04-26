@@ -20,7 +20,7 @@
         android:text="Write a value between 1 and 5"
         />
 
-    <com.forgivingui.theophrast.numericinputedittext.ui.IntInputEditText
+    <com.theophrast.forgivingui.numericinputedittext.ui.IntInputEditText
         xmlns:inputparam="http://schemas.android.com/apk/res-auto"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

@@ -1,4 +1,4 @@
-package com.forgivingui.theophrast.numericinputedittext.ui.base;
+package com.theophrast.forgivingui.numericinputedittext.ui.base;
 
 import android.content.Context;
 import android.os.Build;
@@ -6,9 +6,6 @@ import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
 import android.widget.EditText;
 
-/**
- * Created by theophrast on 2017.04.26..
- */
 
 public abstract class InputEditTextBase extends EditText {
 
@@ -21,6 +18,27 @@ public abstract class InputEditTextBase extends EditText {
 
     protected static final String ErrorMessage_OutOfRange_Min_Open = "Minimum value must be > ";
     protected static final String ErrorMessage_OutOfRange_Max_Open = "Maximum value must be < ";
+
+    /**
+     * Set the valid range of the EditText input.
+     * <p>
+     * Valid interval can be specified with a String by the following format:
+     * [ minimal_enabled_value , maximal_enabled_value ]
+     * <p>
+     * or
+     * ] minimal_not_enabled_value , maximal_not_enabled_value [
+     * <p>
+     * or the combination of the interval limitations:
+     * ] minimal_not_enabled_value , maximal_enabled_value ]
+     * <p>
+     * Infinite values are specified with a - or a + sign:
+     * [ - , maximal_enabled_value ]
+     * or
+     * [ minimal_enabled_value , + ]
+     *
+     * @param validInterval
+     */
+    public abstract void setValidInterval(String validInterval);
 
 
     public InputEditTextBase(Context context) {
@@ -40,5 +58,11 @@ public abstract class InputEditTextBase extends EditText {
         super(context, attrs, defStyleAttr, defStyleRes);
     }
 
+    /**
+     * Validate the value written in the EditText by the specified interval, show error message
+     * if needed, and correct the written value, if needed.
+     *
+     * @return true if the value from Edittext is inside the specified range, false otherwise
+     */
     public abstract boolean isValid();
 }

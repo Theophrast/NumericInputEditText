@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <declare-styleable name="com.forgivingui.theophrast.numericinputedittext.ui.IntInputEditText">
+    <declare-styleable name="com.theophrast.forgivingui.numericinputedittext.ui.IntInputEditText">
         <attr name="validRange" format="string" />
         <attr name="showMessageOnError" format="boolean" />
         <attr name="autoCorrectOnError" format="boolean" />

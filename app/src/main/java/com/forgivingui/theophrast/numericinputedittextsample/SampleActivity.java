@@ -9,8 +9,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.forgivingui.theophrast.numericinputedittext.ui.IntInputEditText;
-import com.forgivingui.theophrast.numericinputedittext.ui.IntegerRange;
+import com.theophrast.forgivingui.numericinputedittext.ui.IntInputEditText;
+
 
 public class SampleActivity extends AppCompatActivity {
 

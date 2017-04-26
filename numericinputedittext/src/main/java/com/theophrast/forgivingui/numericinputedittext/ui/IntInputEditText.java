@@ -1,13 +1,14 @@
-package com.forgivingui.theophrast.numericinputedittext.ui;
+package com.theophrast.forgivingui.numericinputedittext.ui;
 
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
 
-import com.forgivingui.theophrast.numericinputedittext.ui.base.InputEditTextBase;
-import com.forgivingui.theophrast.numericinputedittext.ui.base.RangeBase;
+import com.theophrast.forgivingui.numericinputedittext.interval.IntegerInterval;
+import com.theophrast.forgivingui.numericinputedittext.interval.base.IntervalBase;
+import com.theophrast.forgivingui.numericinputedittext.ui.base.InputEditTextBase;
+
 
 /**
  * Created by theophrast on 2017.04.26..
@@ -15,7 +16,7 @@ import com.forgivingui.theophrast.numericinputedittext.ui.base.RangeBase;
 
 public class IntInputEditText extends InputEditTextBase {
 
-    IntegerRange mRange;
+    IntegerInterval mRange;
 
     public void setShowMessageOnError(boolean showMessageOnError) {
         this.showMessageOnError = showMessageOnError;
@@ -27,6 +28,7 @@ public class IntInputEditText extends InputEditTextBase {
 
     private boolean showMessageOnError=true;
     private boolean autoCorrectOnError=true;
+
 
     public IntInputEditText(Context context) {
         super(context);
@@ -57,19 +59,15 @@ public class IntInputEditText extends InputEditTextBase {
         boolean showMessageOnError = attrs.getAttributeBooleanValue(packageName, "showMessageOnError", true);
         boolean autoCorrectOnError = attrs.getAttributeBooleanValue(packageName, "autoCorrectOnError", true);
 
-        this.mRange=new IntegerRange(range);
+        this.mRange=new IntegerInterval(range);
         this.showMessageOnError=showMessageOnError;
         this.autoCorrectOnError=autoCorrectOnError;
     }
 
-    public void setRange(String range) {
-        this.mRange = new IntegerRange(range);
+    @Override
+    public void setValidInterval(String validInterval) {
+        this.mRange = new IntegerInterval(validInterval);
     }
-
-    private void setRange(IntegerRange range) {
-        this.mRange = range;
-    }
-
 
     @Override
     public boolean isValid() {
@@ -104,24 +102,23 @@ public class IntInputEditText extends InputEditTextBase {
 
     private boolean isValueInRange(Integer value) {
         if (mRange == null) {
-            mRange = IntegerRange.getDefaultIntegerRange();
+            mRange = IntegerInterval.getDefaultIntegerRange();
         }
-        RangeBase.RangePosition posInRange = mRange.locateValueInRange(value);
+        if (autoCorrectOnError) setValue(mRange.getCorrectedValue(value));
 
+        IntervalBase.IntervalPosition posInRange = mRange.locateValueInRange(value);
         switch (posInRange) {
             case OUTOFRANGE_MAX:
                 if (showMessageOnError) {
                     this.requestFocus();
                     this.setError(getMaxErrorMessageBase() + mRange.getMaxValue());
                 }
-                if (autoCorrectOnError) overWritetoMaxLimit();
                 return false;
             case OUTOFRANGE_MIN:
                 if (showMessageOnError) {
                     this.requestFocus();
                     this.setError(getMinErrorMessageBase() + mRange.getMinValue());
                 }
-                if (autoCorrectOnError) overWriteToMinLimit();
                 return false;
             case INSIDE:
                 return true;
@@ -129,19 +126,18 @@ public class IntInputEditText extends InputEditTextBase {
         return false;
     }
 
-    private void overWriteToMinLimit() {
-        if (mRange.getMinValue() == null) return;
-        Integer newValue = mRange.getMinValue() + (mRange.isIntervalMinClosed() ? 0 : 1);
-        this.setText(Integer.toString(newValue));
-
+    /**
+     * Set the value of the editText.
+     * @param value
+     */
+    public void setValue(int value){
+        this.setText(Integer.toString(value));
     }
 
-    private void overWritetoMaxLimit() {
-        if (mRange.getMaxValue() == null) return;
-        Integer newValue = mRange.getMaxValue() - (mRange.isIntervalMaxClosed() ? 0 : 1);
-        this.setText(Integer.toString(newValue));
-    }
-
+    /**
+     * Return the Integer value of the EditText
+     * @return the value of EditText, null if invalid value
+     */
     public Integer getValue() {
         if (!isValid()) return null;
         return Integer.valueOf(this.getText().toString());

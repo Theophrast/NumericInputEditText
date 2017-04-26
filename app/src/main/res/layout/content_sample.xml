@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
     android:id="@+id/content_sample"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -14,10 +15,16 @@
     tools:showIn="@layout/activity_sample">
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/textView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Write a value between 1 and 5"
+        android:text="Write an integer value between 0 and 100"
+        />
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="[0,100]"
         />
 
     <com.theophrast.forgivingui.numericinputedittext.ui.IntegerInputEditText
@@ -27,21 +34,47 @@
         android:inputType="number"
         android:ems="10"
         android:id="@+id/et_intinput"
-        android:layout_below="@+id/textView"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
         inputparam:showMessageOnError="true"
         inputparam:autoCorrectOnError="true"
-        inputparam:validRange="]1,5["
+        inputparam:validRange="[0,100]"
         />
 
     <Button
         android:text="Validate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/et_intinput"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:id="@+id/button"
-        android:onClick="validate" />
-</RelativeLayout>
+        android:id="@+id/button1"
+        android:onClick="validateIntegerInputEditText" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="36dp"
+        android:text="Write a decimal value between 0 and 1"
+        />
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="]0f,1f]"
+        />
+    <com.theophrast.forgivingui.numericinputedittext.ui.FloatInputEditText
+        xmlns:inputparam="http://schemas.android.com/apk/res-auto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="number"
+        android:ems="10"
+        android:id="@+id/et_floatinput"
+        inputparam:showMessageOnError="true"
+        inputparam:autoCorrectOnError="true"
+        inputparam:validRange="]0f,1f]"
+        />
+
+    <Button
+        android:text="Validate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/button2"
+        android:onClick="validateFloatInputEditText" />
+</LinearLayout>

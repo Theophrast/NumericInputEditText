@@ -1,20 +1,22 @@
 package com.forgivingui.theophrast.numericinputedittextsample;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
+import com.theophrast.forgivingui.numericinputedittext.ui.FloatInputEditText;
 import com.theophrast.forgivingui.numericinputedittext.ui.IntegerInputEditText;
 
 
 public class SampleActivity extends AppCompatActivity {
 
     IntegerInputEditText integerInputEditText;
+    FloatInputEditText floatInputEditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,14 +26,7 @@ public class SampleActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         integerInputEditText = (IntegerInputEditText) findViewById(R.id.et_intinput);
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+        floatInputEditText = (FloatInputEditText) findViewById(R.id.et_floatinput);
     }
 
     @Override
@@ -56,7 +51,26 @@ public class SampleActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void validate(View v) {
-        integerInputEditText.isValid();
+    public void validateIntegerInputEditText(View v) {
+        boolean isValid = integerInputEditText.isValid();
+        if(isValid){
+            Toast.makeText(v.getContext(),"Value in IntegerInputEditText is valid\nValue: "+integerInputEditText.getValue(),Toast.LENGTH_LONG).show();
+        }else {
+            Toast.makeText(v.getContext(),"Value in IntegerInputEditText is INVALID",Toast.LENGTH_LONG).show();
+        }
+
+
     }
+ public void validateFloatInputEditText(View v) {
+        boolean isValid = floatInputEditText.isValid();
+        if(isValid){
+            Toast.makeText(v.getContext(),"Value in FloatInputEditText is valid\nValue: "+floatInputEditText.getValue(),Toast.LENGTH_LONG).show();
+        }else {
+            Toast.makeText(v.getContext(),"Value in FloatInputEditText is INVALID",Toast.LENGTH_LONG).show();
+        }
+
+
+    }
+
+
 }

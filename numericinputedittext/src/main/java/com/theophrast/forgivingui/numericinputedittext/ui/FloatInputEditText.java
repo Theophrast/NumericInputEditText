@@ -5,18 +5,18 @@ import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
 
+import com.theophrast.forgivingui.numericinputedittext.interval.FloatInterval;
 import com.theophrast.forgivingui.numericinputedittext.interval.IntegerInterval;
 import com.theophrast.forgivingui.numericinputedittext.interval.base.IntervalBase;
 import com.theophrast.forgivingui.numericinputedittext.ui.base.InputEditTextBase;
-
 
 /**
  * Created by theophrast on 2017.04.26..
  */
 
-public class IntInputEditText extends InputEditTextBase {
+public class FloatInputEditText extends InputEditTextBase {
 
-    IntegerInterval mRange;
+    FloatInterval mRange;
 
     public void setShowMessageOnError(boolean showMessageOnError) {
         this.showMessageOnError = showMessageOnError;
@@ -26,27 +26,27 @@ public class IntInputEditText extends InputEditTextBase {
         this.autoCorrectOnError = autoCorrectOnError;
     }
 
-    private boolean showMessageOnError=true;
-    private boolean autoCorrectOnError=true;
+    private boolean showMessageOnError = true;
+    private boolean autoCorrectOnError = true;
 
 
-    public IntInputEditText(Context context) {
+    public FloatInputEditText(Context context) {
         super(context);
         setAttributes(context, null);
     }
 
-    public IntInputEditText(Context context, AttributeSet attrs) {
+    public FloatInputEditText(Context context, AttributeSet attrs) {
         super(context, attrs);
         setAttributes(context, attrs);
     }
 
-    public IntInputEditText(Context context, AttributeSet attrs, int defStyleAttr) {
+    public FloatInputEditText(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         setAttributes(context, attrs);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    public IntInputEditText(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public FloatInputEditText(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         setAttributes(context, attrs);
     }
@@ -56,17 +56,19 @@ public class IntInputEditText extends InputEditTextBase {
         if (attrs == null) return;
         String packageName = "http://schemas.android.com/apk/res-auto";
         String range = attrs.getAttributeValue(packageName, "validRange");
+        float correction = attrs.getAttributeFloatValue(packageName, "correction", 0.01f);
         boolean showMessageOnError = attrs.getAttributeBooleanValue(packageName, "showMessageOnError", true);
         boolean autoCorrectOnError = attrs.getAttributeBooleanValue(packageName, "autoCorrectOnError", true);
 
-        this.mRange=new IntegerInterval(range);
-        this.showMessageOnError=showMessageOnError;
-        this.autoCorrectOnError=autoCorrectOnError;
+        this.mRange = new FloatInterval(range);
+        this.mRange.setCorrectionValue(correction);
+        this.showMessageOnError = showMessageOnError;
+        this.autoCorrectOnError = autoCorrectOnError;
     }
 
     @Override
     public void setValidInterval(String validInterval) {
-        this.mRange = new IntegerInterval(validInterval);
+        this.mRange = new FloatInterval(validInterval);
     }
 
     @Override
@@ -80,9 +82,9 @@ public class IntInputEditText extends InputEditTextBase {
             }
             return false;
         }
-        int intResult;
+        float floatResult;
         try {
-            intResult = Integer.valueOf(stringResult);
+            floatResult = Float.valueOf(stringResult);
         } catch (Exception e) {
             if (showMessageOnError) {
                 this.requestFocus();
@@ -92,7 +94,7 @@ public class IntInputEditText extends InputEditTextBase {
         }
 
 
-        boolean isInRange = isValueInRange(intResult);
+        boolean isInRange = isValueInRange(floatResult);
         if (isInRange && showMessageOnError) {
             setError(null);
         }
@@ -100,9 +102,9 @@ public class IntInputEditText extends InputEditTextBase {
     }
 
 
-    private boolean isValueInRange(Integer value) {
+    private boolean isValueInRange(float value) {
         if (mRange == null) {
-            mRange = IntegerInterval.getDefaultIntegerRange();
+            mRange = FloatInterval.getDefaultFloatInterval();
         }
         if (autoCorrectOnError) setValue(mRange.getCorrectedValue(value));
 
@@ -128,19 +130,21 @@ public class IntInputEditText extends InputEditTextBase {
 
     /**
      * Set the value of the editText.
+     *
      * @param value
      */
-    public void setValue(int value){
-        this.setText(Integer.toString(value));
+    public void setValue(float value) {
+        this.setText(Float.toString(value));
     }
 
     /**
      * Return the Integer value of the EditText
+     *
      * @return the value of EditText, null if invalid value
      */
-    public Integer getValue() {
+    public Float getValue() {
         if (!isValid()) return null;
-        return Integer.valueOf(this.getText().toString());
+        return Float.valueOf(this.getText().toString());
     }
 
     protected String getMinErrorMessageBase() {

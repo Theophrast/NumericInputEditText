@@ -9,12 +9,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.theophrast.forgivingui.numericinputedittext.ui.IntInputEditText;
+import com.theophrast.forgivingui.numericinputedittext.ui.IntegerInputEditText;
 
 
 public class SampleActivity extends AppCompatActivity {
 
-    IntInputEditText intInputEditText;
+    IntegerInputEditText integerInputEditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,7 +23,7 @@ public class SampleActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        intInputEditText = (IntInputEditText) findViewById(R.id.et_intinput);
+        integerInputEditText = (IntegerInputEditText) findViewById(R.id.et_intinput);
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,6 +57,6 @@ public class SampleActivity extends AppCompatActivity {
     }
 
     public void validate(View v) {
-        intInputEditText.isValid();
+        integerInputEditText.isValid();
     }
 }

@@ -1,21 +1,27 @@
 package com.theophrast.forgivingui.numericinputedittext.interval;
 
-
 import com.theophrast.forgivingui.numericinputedittext.interval.base.IntervalBase;
 
-public class IntegerInterval extends IntervalBase {
-    private Integer minValue = null;
-    private Integer maxValue = null;
+/**
+ * Created by theophrast on 2017.04.26..
+ */
+
+public class FloatInterval extends IntervalBase {
+    private Float minValue = null;
+    private Float maxValue = null;
+    private float correctionValue;
 
 
-    private IntegerInterval(Integer minValue, boolean isMinClosed, Integer maxValue, boolean isMaxClosed) {
+
+    private FloatInterval(Float minValue, boolean isMinClosed, Float maxValue, boolean isMaxClosed, float correctionValue) {
         this.minValue = minValue;
         this.isIntervalMinClosed = isMinClosed;
         this.maxValue = maxValue;
         this.isIntervalMaxClosed = isMaxClosed;
+        this.correctionValue = correctionValue;
     }
 
-    public IntegerInterval(String intervalString) {
+    public FloatInterval(String intervalString) {
         if (intervalString == null) {
             this.minValue = null;
             this.isIntervalMinClosed = true;
@@ -38,13 +44,13 @@ public class IntegerInterval extends IntervalBase {
             if (rangeValues[0].substring(1).equals("-")) {
                 minValue = null;
             } else {
-                minValue = Integer.valueOf(rangeValues[0].substring(1));
+                minValue = Float.valueOf(rangeValues[0].substring(1));
             }
 
             if (rangeValues[1].substring(0, rangeValues[1].length() - 1).equals("+")) {
                 maxValue = null;
             } else {
-                maxValue = Integer.valueOf(rangeValues[1].substring(0, rangeValues[1].length() - 1));
+                maxValue = Float.valueOf(rangeValues[1].substring(0, rangeValues[1].length() - 1));
             }
             if ((minValue != null) && (maxValue != null)) {
                 if ((maxValue - minValue) < 0) {
@@ -62,28 +68,32 @@ public class IntegerInterval extends IntervalBase {
 
     }
 
+    public void setCorrectionValue(float correctionValue) {
+        this.correctionValue = correctionValue;
+    }
+
     private void throwInvalidFormatException(String originalString) {
         String msg = "\nPlease use the following format: [minimumvalue;maximumvalue], eg.: [2,10] or [-5,42]" +
                 "\nOr use [-,+] format for mo minimum or maximum value eg.: [5,+] or [-,0] or [-,+]";
-        throw new InvalidIntervalException("\nInvalid range set for IntegerInterval: "
+        throw new InvalidIntervalException("\nInvalid range set for FloatInterval: "
                 + originalString + msg);
     }
 
     private void throwInvalidInvalidMinMAxValueException(String originalString) {
-        throw new InvalidIntervalException("\nInvalid range set for IntegerInterval: "
+        throw new InvalidIntervalException("\nInvalid range set for FloatInterval: "
                 + originalString + "\n minimum value cannot be bigger than maximum value!");
     }
 
 
-    public Integer getMinValue() {
+    public Float getMinValue() {
         return minValue;
     }
 
-    public Integer getMaxValue() {
+    public Float getMaxValue() {
         return maxValue;
     }
 
-    public IntervalPosition locateValueInRange(int value) {
+    public IntervalPosition locateValueInRange(float value) {
         boolean minvalid = (minValue == null) || (value > (isIntervalMinClosed ? (minValue - 1) : minValue));
         if (!minvalid) {
             return IntervalPosition.OUTOFRANGE_MIN;
@@ -95,21 +105,30 @@ public class IntegerInterval extends IntervalBase {
         return IntervalPosition.INSIDE;
     }
 
-    public int getCorrectedValue(int value) {
+    public float getCorrectedValue(float value) {
         IntervalPosition position = locateValueInRange(value);
+        float correctedValue = value;
         switch (position) {
             case INSIDE:
-                return value;
+                return correctedValue;
             case OUTOFRANGE_MAX:
-                return maxValue - (isIntervalMaxClosed ? 0 : 1);
+                correctedValue= maxValue - (isIntervalMaxClosed ? 0f : correctionValue);
+                break;
             case OUTOFRANGE_MIN:
-                return minValue + (isIntervalMinClosed ? 0 : 1);
+                correctedValue= minValue + (isIntervalMinClosed ? 0f : correctionValue);
+                break;
         }
-        return value;
+        IntervalPosition positionNew = locateValueInRange(correctedValue);
+
+        if(positionNew.equals(IntervalPosition.INSIDE)) {
+            return correctedValue;
+        }else {
+            return (minValue+maxValue)/2f; //correct to a valid value
+        }
     }
 
-    public static IntegerInterval getDefaultIntegerInterval() {
-        return new IntegerInterval(null, true, null, true);
+    public static FloatInterval getDefaultFloatInterval() {
+        return new FloatInterval(null, true, null, true, 0.01f);
     }
 
     public static int count(final String string, final String substring) {

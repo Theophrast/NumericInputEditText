@@ -7,7 +7,6 @@ import android.text.InputType;
 import android.util.AttributeSet;
 
 import com.theophrast.forgivingui.numericinputedittext.interval.FloatInterval;
-import com.theophrast.forgivingui.numericinputedittext.interval.IntegerInterval;
 import com.theophrast.forgivingui.numericinputedittext.interval.base.IntervalBase;
 import com.theophrast.forgivingui.numericinputedittext.ui.base.InputEditTextBase;
 
@@ -65,7 +64,7 @@ public class FloatInputEditText extends InputEditTextBase {
         this.mRange.setCorrectionValue(correction);
         this.showMessageOnError = showMessageOnError;
         this.autoCorrectOnError = autoCorrectOnError;
-        setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL | InputType.TYPE_NUMBER_FLAG_SIGNED);
+        setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL | InputType.TYPE_NUMBER_FLAG_SIGNED);
     }
 
     @Override

@@ -10,14 +10,14 @@ public class DoubleInterval extends IntervalBase {
 
     private Double minValue;
     private Double maxValue;
-    private double correctionValue;
+    private float correctionValue;
 
 
     private DoubleInterval() {
         super();
         minValue = Double.MIN_VALUE;
         maxValue = Double.MAX_VALUE;
-        correctionValue = 0.01d;
+        correctionValue = 0.01f;
     }
 
     public DoubleInterval(String intervalString) {
@@ -41,7 +41,7 @@ public class DoubleInterval extends IntervalBase {
         this.maxValue = maxValue;
     }
 
-    public void setCorrectionValue(double correctionValue) {
+    public void setCorrectionValue(float correctionValue) {
         this.correctionValue = correctionValue;
     }
 
@@ -79,7 +79,7 @@ public class DoubleInterval extends IntervalBase {
         }
     }
 
-    public static DoubleInterval getDefaultFloatInterval() {
+    public static DoubleInterval getDefaultDoubleInterval() {
         return new DoubleInterval();
     }
 

@@ -41,11 +41,11 @@ public class LongInterval extends IntervalBase {
     }
 
     public IntervalPosition locateValueInRange(long value) {
-        boolean minvalid = (minValue == null) || (value > (isIntervalMinClosed ? (minValue - 1) : minValue));
+        boolean minvalid = (minValue == null) || (isIntervalMinClosed ? (value>=minValue ) : (value>minValue));
         if (!minvalid) {
             return IntervalPosition.OUTOFRANGE_MIN;
         }
-        boolean maxvalid = (maxValue == null) || (value < (isIntervalMaxClosed ? (maxValue + 1) : maxValue));
+        boolean maxvalid = (maxValue == null) || (isIntervalMaxClosed ? (value<=maxValue) : (value<maxValue));
         if (!maxvalid) {
             return IntervalPosition.OUTOFRANGE_MAX;
         }

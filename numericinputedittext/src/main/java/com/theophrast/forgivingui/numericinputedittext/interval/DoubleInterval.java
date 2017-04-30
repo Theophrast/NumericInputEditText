@@ -3,50 +3,50 @@ package com.theophrast.forgivingui.numericinputedittext.interval;
 import com.theophrast.forgivingui.numericinputedittext.interval.base.IntervalBase;
 
 /**
- * Created by theophrast on 2017.04.26..
+ * Created by theophrast on 2017.04.30..
  */
 
-public class FloatInterval extends IntervalBase {
+public class DoubleInterval extends IntervalBase {
 
-    private Float minValue;
-    private Float maxValue;
-    private float correctionValue;
+    private Double minValue;
+    private Double maxValue;
+    private double correctionValue;
 
 
-    private FloatInterval() {
+    private DoubleInterval() {
         super();
-        minValue = Float.MIN_VALUE;
-        maxValue = Float.MAX_VALUE;
-        correctionValue = 0.01f;
+        minValue = Double.MIN_VALUE;
+        maxValue = Double.MAX_VALUE;
+        correctionValue = 0.01d;
     }
 
-    public FloatInterval(String intervalString) {
+    public DoubleInterval(String intervalString) {
         this();
-        IntervalParser.getInstance().parseAsFloatIntervalAndMapValuesFor(intervalString, this);
+        IntervalParser.getInstance().parseAsDoubleIntervalAndMapValuesFor(intervalString, this);
     }
 
-    public Float getMinValue() {
+    public Double getMinValue() {
         return minValue;
     }
 
-    public Float getMaxValue() {
+    public Double getMaxValue() {
         return maxValue;
     }
 
-    public void setMinValue(Float minValue) {
+    public void setMinValue(Double minValue) {
         this.minValue = minValue;
     }
 
-    public void setMaxValue(Float maxValue) {
+    public void setMaxValue(Double maxValue) {
         this.maxValue = maxValue;
     }
 
-    public void setCorrectionValue(float correctionValue) {
+    public void setCorrectionValue(double correctionValue) {
         this.correctionValue = correctionValue;
     }
 
-    public IntervalPosition locateValueInRange(float value) {
-        boolean minvalid = (minValue == null) || (isIntervalMinClosed ? (value >= minValue) : (value > minValue));
+    public IntervalPosition locateValueInRange(double value) {
+        boolean minvalid = (minValue == null) || (isIntervalMinClosed ? (value>=minValue ) : (value>minValue));
         if (!minvalid) {
             return IntervalPosition.OUTOFRANGE_MIN;
         }
@@ -57,9 +57,9 @@ public class FloatInterval extends IntervalBase {
         return IntervalPosition.INSIDE;
     }
 
-    public float getCorrectedValue(float value) {
+    public double getCorrectedValue(double value) {
         IntervalPosition position = locateValueInRange(value);
-        float correctedValue = value;
+        double correctedValue = value;
         switch (position) {
             case INSIDE:
                 return correctedValue;
@@ -79,8 +79,8 @@ public class FloatInterval extends IntervalBase {
         }
     }
 
-    public static FloatInterval getDefaultFloatInterval() {
-        return new FloatInterval();
+    public static DoubleInterval getDefaultFloatInterval() {
+        return new DoubleInterval();
     }
 
 }

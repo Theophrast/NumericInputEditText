@@ -122,4 +122,40 @@ public class IntervalParser extends IntervalParserBase {
         interval.setIntervalMaxClosed(isIntervalMaxClosed);
     }
 
+    void parseAsDoubleIntervalAndMapValuesFor(String rawIntervalString, DoubleInterval interval) {
+        String intervalString = validateBasics(rawIntervalString);
+
+        if (intervalString == null) {
+            return;
+        }
+        boolean isIntervalMinClosed = true;
+        boolean isIntervalMaxClosed = true;
+        Double minValue = Double.MIN_VALUE;
+        Double maxValue = Double.MAX_VALUE;
+        try {
+            isIntervalMinClosed = isIntervalClosedFor(ValueType.MINVALUE, intervalString);
+            isIntervalMaxClosed = isIntervalClosedFor(ValueType.MAXVALUE, intervalString);
+            String minString = getValueFromPreProcessedString(ValueType.MINVALUE, intervalString);
+            String maxString = getValueFromPreProcessedString(ValueType.MAXVALUE, intervalString);
+
+            minValue = minString.equals("-") ? Double.MIN_VALUE : Double.valueOf(minString);
+            maxValue = maxString.equals("+") ? Double.MAX_VALUE : Double.valueOf(maxString);
+
+            if ((maxValue - minValue) < 0) {
+                throwInvalidInvalidMinMAxValueException(rawIntervalString);
+            } else if ((maxValue - minValue) == 0) {
+                if ((!isIntervalMinClosed) || (!isIntervalMaxClosed)) {
+                    throwInvalidInvalidMinMAxValueException(rawIntervalString);
+                }
+            }
+        } catch (Exception e) {
+            throwInvalidFormatException(rawIntervalString);
+        }
+
+        interval.setMinValue(minValue);
+        interval.setIntervalMinClosed(isIntervalMinClosed);
+        interval.setMaxValue(maxValue);
+        interval.setIntervalMaxClosed(isIntervalMaxClosed);
+    }
+
 }

@@ -6,35 +6,35 @@ import android.support.annotation.RequiresApi;
 import android.text.InputType;
 import android.util.AttributeSet;
 
-import com.theophrast.forgivingui.numericinputedittext.interval.FloatInterval;
+import com.theophrast.forgivingui.numericinputedittext.interval.LongInterval;
 import com.theophrast.forgivingui.numericinputedittext.interval.base.IntervalBase;
 import com.theophrast.forgivingui.numericinputedittext.ui.base.InputEditTextBase;
 
 /**
- * Created by theophrast on 2017.04.26..
+ * Created by theophrast on 2017.04.30..
  */
 
-public class FloatInputEditText extends InputEditTextBase {
+public class LongInputEditText extends InputEditTextBase {
 
-    FloatInterval mInterval;
+    LongInterval mInterval;
 
-    public FloatInputEditText(Context context) {
+    public LongInputEditText(Context context) {
         super(context);
         setAttributes(context, null);
     }
 
-    public FloatInputEditText(Context context, AttributeSet attrs) {
+    public LongInputEditText(Context context, AttributeSet attrs) {
         super(context, attrs);
         setAttributes(context, attrs);
     }
 
-    public FloatInputEditText(Context context, AttributeSet attrs, int defStyleAttr) {
+    public LongInputEditText(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         setAttributes(context, attrs);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    public FloatInputEditText(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public LongInputEditText(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         setAttributes(context, attrs);
     }
@@ -44,20 +44,19 @@ public class FloatInputEditText extends InputEditTextBase {
         if (attrs == null) return;
         String packageName = "http://schemas.android.com/apk/res-auto";
         String range = attrs.getAttributeValue(packageName, "validRange");
-        float correction = attrs.getAttributeFloatValue(packageName, "correction", 0.01f);
         boolean showMessageOnError = attrs.getAttributeBooleanValue(packageName, "showMessageOnError", true);
         boolean autoCorrectOnError = attrs.getAttributeBooleanValue(packageName, "autoCorrectOnError", true);
 
-        this.mInterval = new FloatInterval(range);
-        this.mInterval.setCorrectionValue(correction);
+        this.mInterval = new LongInterval(range);
         this.showMessageOnError = showMessageOnError;
         this.autoCorrectOnError = autoCorrectOnError;
-        setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL | InputType.TYPE_NUMBER_FLAG_SIGNED);
+
+        setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED);
     }
 
     @Override
     public void setValidInterval(String validInterval) {
-        this.mInterval = new FloatInterval(validInterval);
+        this.mInterval = new LongInterval(validInterval);
     }
 
     @Override
@@ -66,6 +65,7 @@ public class FloatInputEditText extends InputEditTextBase {
     }
 
     private boolean isValid(boolean isHiddenValidation) {
+
         String stringResult = this.getText().toString();
 
         if (stringResult.isEmpty()) {
@@ -75,9 +75,9 @@ public class FloatInputEditText extends InputEditTextBase {
             }
             return false;
         }
-        float floatResult;
+        long intResult;
         try {
-            floatResult = Float.valueOf(stringResult);
+            intResult = Long.valueOf(stringResult);
         } catch (Exception e) {
             if (!isHiddenValidation && showMessageOnError) {
                 this.requestFocus();
@@ -87,7 +87,7 @@ public class FloatInputEditText extends InputEditTextBase {
         }
 
 
-        boolean isInRange = isValueInRange(floatResult, isHiddenValidation);
+        boolean isInRange = isValueInRange(intResult, isHiddenValidation);
         if (!isHiddenValidation && isInRange && showMessageOnError) {
             setError(null);
         }
@@ -95,9 +95,9 @@ public class FloatInputEditText extends InputEditTextBase {
     }
 
 
-    private boolean isValueInRange(float value, boolean isHiddenValidation) {
+    private boolean isValueInRange(Long value, boolean isHiddenValidation) {
         if (mInterval == null) {
-            mInterval = FloatInterval.getDefaultFloatInterval();
+            mInterval = LongInterval.getDefaultLongInterval();
         }
         if (!isHiddenValidation && autoCorrectOnError) setValue(mInterval.getCorrectedValue(value));
 
@@ -126,18 +126,18 @@ public class FloatInputEditText extends InputEditTextBase {
      *
      * @param value
      */
-    public void setValue(float value) {
-        this.setText(Float.toString(value));
+    public void setValue(long value) {
+        this.setText(Long.toString(value));
     }
 
     /**
-     * Return the Float value of the EditText
+     * Return the Long value of the EditText
      *
      * @return the value of EditText, null if invalid value
      */
-    public Float getValue() {
-        if (!isValid(true)) return null;
-        return Float.valueOf(this.getText().toString());
+    public Long getValue() {
+        if (!isValid()) return null;
+        return Long.valueOf(this.getText().toString());
     }
 
     protected String getMinErrorMessageBase() {

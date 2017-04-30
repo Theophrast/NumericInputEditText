@@ -1,5 +1,32 @@
 apply plugin: 'com.android.library'
 
+ext {
+    bintrayRepo = 'NumericInputEditText'
+    bintrayName = 'NumericInputEditText'   // Has to be same as your library module name
+
+    publishedGroupId = 'com.theophrast.forgivingui.numericinputedittext'
+    libraryName = 'NumericInputEditText'
+    artifact = 'numericinputedittext'     // Has to be same as your library module name
+
+    libraryDescription = 'Android Edittext extension for numeric input validation'
+
+    // Your github repo link
+    siteUrl = 'https://github.com/Theophrast/NumericInputEditText'
+    gitUrl = 'https://github.com/Theophrast/NumericInputEditText.git'
+    githubRepository= 'Theophrast/NumericInputEditText'
+
+    libraryVersion = '1.0'
+
+    developerId = 'Theophrast'
+    developerName = 'Janos Jakub'
+    developerEmail = 'jj.theophrast@gmail.com'
+
+    licenseName = 'The Apache Software License, Version 2.0'
+    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+    allLicenses = ["Apache-2.0"]
+}
+
+
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.0"
@@ -29,3 +56,6 @@ dependencies {
     compile 'com.android.support:appcompat-v7:25.3.1'
     testCompile 'junit:junit:4.12'
 }
+
+apply from: 'https://raw.githubusercontent.com/nisrulz/JCenter/master/installv1.gradle'
+apply from: 'https://raw.githubusercontent.com/nisrulz/JCenter/master/bintrayv1.gradle'

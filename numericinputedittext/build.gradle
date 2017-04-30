@@ -1,11 +1,11 @@
 apply plugin: 'com.android.library'
 
 ext {
-    bintrayRepo = 'NumericInputEditText'
-    bintrayName = 'NumericInputEditText'   // Has to be same as your library module name
+    bintrayRepo = 'maven'
+    bintrayName = 'numericinputedittext'   // Has to be same as your library module name
 
     publishedGroupId = 'com.theophrast.forgivingui.numericinputedittext'
-    libraryName = 'NumericInputEditText'
+    libraryName = 'numericinputedittext'
     artifact = 'numericinputedittext'     // Has to be same as your library module name
 
     libraryDescription = 'Android Edittext extension for numeric input validation'

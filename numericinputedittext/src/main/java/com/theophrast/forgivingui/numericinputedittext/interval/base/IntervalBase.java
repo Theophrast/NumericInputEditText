@@ -5,9 +5,15 @@ package com.theophrast.forgivingui.numericinputedittext.interval.base;
  */
 
 public abstract class IntervalBase {
-    protected static final String MINMAXSEPARATOR = ",";
-    protected boolean isIntervalMinClosed = true;
-    protected boolean isIntervalMaxClosed = true;
+
+    protected boolean isIntervalMinClosed;
+    protected boolean isIntervalMaxClosed;
+
+
+    public IntervalBase() {
+        isIntervalMinClosed = true;
+        isIntervalMaxClosed = true;
+    }
 
 
     public boolean isIntervalMinClosed() {
@@ -30,10 +36,6 @@ public abstract class IntervalBase {
         INSIDE, OUTOFRANGE_MIN, OUTOFRANGE_MAX
     }
 
-    protected class InvalidIntervalException extends RuntimeException{
-        public InvalidIntervalException(String message) {
-            super(message);
-        }
-    }
+
 
 }

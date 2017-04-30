@@ -1,41 +1,46 @@
 package com.theophrast.forgivingui.numericinputedittext.interval;
 
-
 import com.theophrast.forgivingui.numericinputedittext.interval.base.IntervalBase;
 
-public class IntegerInterval extends IntervalBase {
+/**
+ * Created by theophrast on 2017.04.30..
+ */
 
-    private Integer minValue;
-    private Integer maxValue;
+public class LongInterval extends IntervalBase {
 
-    private IntegerInterval() {
+    private Long minValue;
+    private Long maxValue;
+
+
+    private LongInterval() {
         super();
-        minValue = Integer.MAX_VALUE;
-        maxValue = Integer.MIN_VALUE;
+        this.minValue = Long.MIN_VALUE;
+        this.maxValue = Long.MAX_VALUE;
     }
 
-    public IntegerInterval(String intervalString) {
+    public LongInterval(String intervalString) {
         this();
-        IntervalParser.getInstance().parseAsIntegerIntervalAndMapValuesFor(intervalString, this);
+        IntervalParser.getInstance().parseAsLongIntervalAndMapValuesFor(intervalString, this);
     }
 
-    public Integer getMinValue() {
+
+    public Long getMinValue() {
         return minValue;
     }
 
-    public Integer getMaxValue() {
+    public Long getMaxValue() {
         return maxValue;
     }
 
-    public void setMinValue(Integer minValue) {
+    public void setMinValue(Long minValue) {
         this.minValue = minValue;
     }
 
-    public void setMaxValue(Integer maxValue) {
+    public void setMaxValue(Long maxValue) {
         this.maxValue = maxValue;
     }
 
-    public IntervalPosition locateValueInRange(int value) {
+    public IntervalPosition locateValueInRange(long value) {
         boolean minvalid = (minValue == null) || (value > (isIntervalMinClosed ? (minValue - 1) : minValue));
         if (!minvalid) {
             return IntervalPosition.OUTOFRANGE_MIN;
@@ -47,7 +52,7 @@ public class IntegerInterval extends IntervalBase {
         return IntervalPosition.INSIDE;
     }
 
-    public int getCorrectedValue(int value) {
+    public long getCorrectedValue(long value) {
         IntervalPosition position = locateValueInRange(value);
         switch (position) {
             case INSIDE:
@@ -60,8 +65,7 @@ public class IntegerInterval extends IntervalBase {
         return value;
     }
 
-    public static IntegerInterval getDefaultIntegerInterval() {
-        return new IntegerInterval();
+    public static LongInterval getDefaultLongInterval() {
+        return new LongInterval();
     }
-
 }

@@ -19,6 +19,18 @@ public abstract class InputEditTextBase extends EditText {
     protected static final String ErrorMessage_OutOfRange_Min_Open = "Minimum value must be > ";
     protected static final String ErrorMessage_OutOfRange_Max_Open = "Maximum value must be < ";
 
+    protected boolean showMessageOnError = true;
+    protected boolean autoCorrectOnError = true;
+
+
+    public void setShowMessageOnError(boolean showMessageOnError) {
+        this.showMessageOnError = showMessageOnError;
+    }
+
+    public void setAutoCorrectOnError(boolean autoCorrectOnError) {
+        this.autoCorrectOnError = autoCorrectOnError;
+    }
+
     /**
      * Set the valid range of the EditText input.
      * <p>

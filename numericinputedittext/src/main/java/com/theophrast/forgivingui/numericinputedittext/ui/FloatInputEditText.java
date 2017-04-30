@@ -16,19 +16,7 @@ import com.theophrast.forgivingui.numericinputedittext.ui.base.InputEditTextBase
 
 public class FloatInputEditText extends InputEditTextBase {
 
-    FloatInterval mRange;
-
-    public void setShowMessageOnError(boolean showMessageOnError) {
-        this.showMessageOnError = showMessageOnError;
-    }
-
-    public void setAutoCorrectOnError(boolean autoCorrectOnError) {
-        this.autoCorrectOnError = autoCorrectOnError;
-    }
-
-    private boolean showMessageOnError = true;
-    private boolean autoCorrectOnError = true;
-
+    FloatInterval mInterval;
 
     public FloatInputEditText(Context context) {
         super(context);
@@ -60,8 +48,8 @@ public class FloatInputEditText extends InputEditTextBase {
         boolean showMessageOnError = attrs.getAttributeBooleanValue(packageName, "showMessageOnError", true);
         boolean autoCorrectOnError = attrs.getAttributeBooleanValue(packageName, "autoCorrectOnError", true);
 
-        this.mRange = new FloatInterval(range);
-        this.mRange.setCorrectionValue(correction);
+        this.mInterval = new FloatInterval(range);
+        this.mInterval.setCorrectionValue(correction);
         this.showMessageOnError = showMessageOnError;
         this.autoCorrectOnError = autoCorrectOnError;
         setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL | InputType.TYPE_NUMBER_FLAG_SIGNED);
@@ -69,7 +57,7 @@ public class FloatInputEditText extends InputEditTextBase {
 
     @Override
     public void setValidInterval(String validInterval) {
-        this.mRange = new FloatInterval(validInterval);
+        this.mInterval = new FloatInterval(validInterval);
     }
 
     @Override
@@ -108,23 +96,23 @@ public class FloatInputEditText extends InputEditTextBase {
 
 
     private boolean isValueInRange(float value, boolean isHiddenValidation) {
-        if (mRange == null) {
-            mRange = FloatInterval.getDefaultFloatInterval();
+        if (mInterval == null) {
+            mInterval = FloatInterval.getDefaultFloatInterval();
         }
-        if (!isHiddenValidation && autoCorrectOnError) setValue(mRange.getCorrectedValue(value));
+        if (!isHiddenValidation && autoCorrectOnError) setValue(mInterval.getCorrectedValue(value));
 
-        IntervalBase.IntervalPosition posInRange = mRange.locateValueInRange(value);
+        IntervalBase.IntervalPosition posInRange = mInterval.locateValueInRange(value);
         switch (posInRange) {
             case OUTOFRANGE_MAX:
                 if (!isHiddenValidation && showMessageOnError) {
                     this.requestFocus();
-                    this.setError(getMaxErrorMessageBase() + mRange.getMaxValue());
+                    this.setError(getMaxErrorMessageBase() + mInterval.getMaxValue());
                 }
                 return false;
             case OUTOFRANGE_MIN:
                 if (!isHiddenValidation && showMessageOnError) {
                     this.requestFocus();
-                    this.setError(getMinErrorMessageBase() + mRange.getMinValue());
+                    this.setError(getMinErrorMessageBase() + mInterval.getMinValue());
                 }
                 return false;
             case INSIDE:
@@ -153,10 +141,10 @@ public class FloatInputEditText extends InputEditTextBase {
     }
 
     protected String getMinErrorMessageBase() {
-        return mRange.isIntervalMinClosed() ? ErrorMessage_OutOfRange_Min_Closed : ErrorMessage_OutOfRange_Min_Open;
+        return mInterval.isIntervalMinClosed() ? ErrorMessage_OutOfRange_Min_Closed : ErrorMessage_OutOfRange_Min_Open;
     }
 
     protected String getMaxErrorMessageBase() {
-        return mRange.isIntervalMaxClosed() ? ErrorMessage_OutOfRange_Max_Closed : ErrorMessage_OutOfRange_Max_Open;
+        return mInterval.isIntervalMaxClosed() ? ErrorMessage_OutOfRange_Max_Closed : ErrorMessage_OutOfRange_Max_Open;
     }
 }

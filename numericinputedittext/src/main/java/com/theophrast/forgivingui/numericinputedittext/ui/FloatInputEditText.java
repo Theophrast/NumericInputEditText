@@ -74,10 +74,14 @@ public class FloatInputEditText extends InputEditTextBase {
 
     @Override
     public boolean isValid() {
+        return isValid(false);
+    }
+
+    private boolean isValid(boolean isHiddenValidation) {
         String stringResult = this.getText().toString();
 
         if (stringResult.isEmpty()) {
-            if (showMessageOnError) {
+            if (!isHiddenValidation && showMessageOnError) {
                 this.requestFocus();
                 this.setError(ErrorMessage_Empty);
             }
@@ -87,7 +91,7 @@ public class FloatInputEditText extends InputEditTextBase {
         try {
             floatResult = Float.valueOf(stringResult);
         } catch (Exception e) {
-            if (showMessageOnError) {
+            if (!isHiddenValidation && showMessageOnError) {
                 this.requestFocus();
                 this.setError(ErrorMessage_FormatProblem);
             }
@@ -95,30 +99,30 @@ public class FloatInputEditText extends InputEditTextBase {
         }
 
 
-        boolean isInRange = isValueInRange(floatResult);
-        if (isInRange && showMessageOnError) {
+        boolean isInRange = isValueInRange(floatResult, isHiddenValidation);
+        if (!isHiddenValidation && isInRange && showMessageOnError) {
             setError(null);
         }
         return isInRange;
     }
 
 
-    private boolean isValueInRange(float value) {
+    private boolean isValueInRange(float value, boolean isHiddenValidation) {
         if (mRange == null) {
             mRange = FloatInterval.getDefaultFloatInterval();
         }
-        if (autoCorrectOnError) setValue(mRange.getCorrectedValue(value));
+        if (!isHiddenValidation && autoCorrectOnError) setValue(mRange.getCorrectedValue(value));
 
         IntervalBase.IntervalPosition posInRange = mRange.locateValueInRange(value);
         switch (posInRange) {
             case OUTOFRANGE_MAX:
-                if (showMessageOnError) {
+                if (!isHiddenValidation && showMessageOnError) {
                     this.requestFocus();
                     this.setError(getMaxErrorMessageBase() + mRange.getMaxValue());
                 }
                 return false;
             case OUTOFRANGE_MIN:
-                if (showMessageOnError) {
+                if (!isHiddenValidation && showMessageOnError) {
                     this.requestFocus();
                     this.setError(getMinErrorMessageBase() + mRange.getMinValue());
                 }
@@ -144,7 +148,7 @@ public class FloatInputEditText extends InputEditTextBase {
      * @return the value of EditText, null if invalid value
      */
     public Float getValue() {
-        if (!isValid()) return null;
+        if (!isValid(true)) return null;
         return Float.valueOf(this.getText().toString());
     }
 

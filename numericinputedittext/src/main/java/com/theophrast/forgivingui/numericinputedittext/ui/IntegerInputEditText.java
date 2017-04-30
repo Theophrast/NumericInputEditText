@@ -27,8 +27,8 @@ public class IntegerInputEditText extends InputEditTextBase {
         this.autoCorrectOnError = autoCorrectOnError;
     }
 
-    private boolean showMessageOnError=true;
-    private boolean autoCorrectOnError=true;
+    private boolean showMessageOnError = true;
+    private boolean autoCorrectOnError = true;
 
 
     public IntegerInputEditText(Context context) {
@@ -60,9 +60,9 @@ public class IntegerInputEditText extends InputEditTextBase {
         boolean showMessageOnError = attrs.getAttributeBooleanValue(packageName, "showMessageOnError", true);
         boolean autoCorrectOnError = attrs.getAttributeBooleanValue(packageName, "autoCorrectOnError", true);
 
-        this.mRange=new IntegerInterval(range);
-        this.showMessageOnError=showMessageOnError;
-        this.autoCorrectOnError=autoCorrectOnError;
+        this.mRange = new IntegerInterval(range);
+        this.showMessageOnError = showMessageOnError;
+        this.autoCorrectOnError = autoCorrectOnError;
 
         setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED);
     }
@@ -74,10 +74,15 @@ public class IntegerInputEditText extends InputEditTextBase {
 
     @Override
     public boolean isValid() {
+        return isValid(false);
+    }
+
+    private boolean isValid(boolean isHiddenValidation) {
+
         String stringResult = this.getText().toString();
 
         if (stringResult.isEmpty()) {
-            if (showMessageOnError) {
+            if (!isHiddenValidation && showMessageOnError) {
                 this.requestFocus();
                 this.setError(ErrorMessage_Empty);
             }
@@ -87,7 +92,7 @@ public class IntegerInputEditText extends InputEditTextBase {
         try {
             intResult = Integer.valueOf(stringResult);
         } catch (Exception e) {
-            if (showMessageOnError) {
+            if (!isHiddenValidation && showMessageOnError) {
                 this.requestFocus();
                 this.setError(ErrorMessage_FormatProblem);
             }
@@ -95,30 +100,30 @@ public class IntegerInputEditText extends InputEditTextBase {
         }
 
 
-        boolean isInRange = isValueInRange(intResult);
-        if (isInRange && showMessageOnError) {
+        boolean isInRange = isValueInRange(intResult, isHiddenValidation);
+        if (!isHiddenValidation && isInRange && showMessageOnError) {
             setError(null);
         }
         return isInRange;
     }
 
 
-    private boolean isValueInRange(Integer value) {
+    private boolean isValueInRange(Integer value, boolean isHiddenValidation) {
         if (mRange == null) {
             mRange = IntegerInterval.getDefaultIntegerInterval();
         }
-        if (autoCorrectOnError) setValue(mRange.getCorrectedValue(value));
+        if (!isHiddenValidation && autoCorrectOnError) setValue(mRange.getCorrectedValue(value));
 
         IntervalBase.IntervalPosition posInRange = mRange.locateValueInRange(value);
         switch (posInRange) {
             case OUTOFRANGE_MAX:
-                if (showMessageOnError) {
+                if (!isHiddenValidation && showMessageOnError) {
                     this.requestFocus();
                     this.setError(getMaxErrorMessageBase() + mRange.getMaxValue());
                 }
                 return false;
             case OUTOFRANGE_MIN:
-                if (showMessageOnError) {
+                if (!isHiddenValidation && showMessageOnError) {
                     this.requestFocus();
                     this.setError(getMinErrorMessageBase() + mRange.getMinValue());
                 }
@@ -131,14 +136,16 @@ public class IntegerInputEditText extends InputEditTextBase {
 
     /**
      * Set the value of the editText.
+     *
      * @param value
      */
-    public void setValue(int value){
+    public void setValue(int value) {
         this.setText(Integer.toString(value));
     }
 
     /**
      * Return the Integer value of the EditText
+     *
      * @return the value of EditText, null if invalid value
      */
     public Integer getValue() {

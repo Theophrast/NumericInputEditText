@@ -1,17 +1,15 @@
 package com.theophrast.forgivingui.numericinputedittext.interval;
 
-import com.theophrast.forgivingui.numericinputedittext.interval.base.IntervalBase;
+import com.theophrast.forgivingui.numericinputedittext.interval.base.FloatingPointInterval;
 
 /**
  * Created by theophrast on 2017.04.26..
  */
 
-public class FloatInterval extends IntervalBase {
+public class FloatInterval extends FloatingPointInterval {
 
     private Float minValue;
     private Float maxValue;
-    private float correctionValue;
-
 
     private FloatInterval() {
         super();
@@ -41,16 +39,12 @@ public class FloatInterval extends IntervalBase {
         this.maxValue = maxValue;
     }
 
-    public void setCorrectionValue(float correctionValue) {
-        this.correctionValue = correctionValue;
-    }
-
     public IntervalPosition locateValueInRange(float value) {
         boolean minvalid = (minValue == null) || (isIntervalMinClosed ? (value >= minValue) : (value > minValue));
         if (!minvalid) {
             return IntervalPosition.OUTOFRANGE_MIN;
         }
-        boolean maxvalid = (maxValue == null) || (isIntervalMaxClosed ? (value<=maxValue) : (value<maxValue));
+        boolean maxvalid = (maxValue == null) || (isIntervalMaxClosed ? (value <= maxValue) : (value < maxValue));
         if (!maxvalid) {
             return IntervalPosition.OUTOFRANGE_MAX;
         }

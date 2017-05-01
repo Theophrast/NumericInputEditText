@@ -9,12 +9,10 @@ public abstract class IntervalBase {
     protected boolean isIntervalMinClosed;
     protected boolean isIntervalMaxClosed;
 
-
     public IntervalBase() {
         isIntervalMinClosed = true;
         isIntervalMaxClosed = true;
     }
-
 
     public boolean isIntervalMinClosed() {
         return isIntervalMinClosed;
@@ -35,7 +33,6 @@ public abstract class IntervalBase {
     public enum IntervalPosition {
         INSIDE, OUTOFRANGE_MIN, OUTOFRANGE_MAX
     }
-
 
 
 }

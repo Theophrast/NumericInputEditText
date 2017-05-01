@@ -9,12 +9,16 @@ public abstract class IntervalParserBase {
 
     protected String validateBasics(String rawIntervalString) {
         String intervalString = rawIntervalString.replaceAll("\\s", "");
+
         boolean containsChars = (intervalString.startsWith("[") || intervalString.startsWith("]")) &&
                 (intervalString.endsWith("[") || intervalString.endsWith("]")) && intervalString.contains(MINMAXSEPARATOR);
-        if (!containsChars) throwInvalidFormatException(intervalString);
+        if (!containsChars) throwInvalidFormatException(rawIntervalString);
 
         int numberOfBracket = count(intervalString, "[") + count(intervalString, "]");
-        if (numberOfBracket != 2) throwInvalidFormatException(intervalString);
+        if (numberOfBracket != 2) throwInvalidFormatException(rawIntervalString);
+
+        int numberOfComma = count(intervalString, ",");
+        if (numberOfComma != 1) throwInvalidFormatException(rawIntervalString);
 
         return rawIntervalString;
     }

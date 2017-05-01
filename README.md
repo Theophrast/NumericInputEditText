@@ -78,7 +78,7 @@ Check the sample for more details.
 ```groovy
     dependencies{
         ...
-        compile 'com.theophrast.forgivingui.numericinputedittext:numericinputedittext:1.0'
+        compile 'com.theophrast.forgivingui.numericinputedittext:numericinputedittext:1.0.1'
     }
 ```
 

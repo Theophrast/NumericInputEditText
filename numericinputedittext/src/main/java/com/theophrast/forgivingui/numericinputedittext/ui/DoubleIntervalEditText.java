@@ -42,16 +42,12 @@ public class DoubleIntervalEditText extends InputEditTextBase {
 
     private void setAttributes(Context context, AttributeSet attrs) {
         if (attrs == null) return;
+        setBaseAttributes(context,attrs);
         String packageName = "http://schemas.android.com/apk/res-auto";
-        String range = attrs.getAttributeValue(packageName, "validRange");
+        String range = attrs.getAttributeValue(packageName, "valid_range");
         float correction = attrs.getAttributeFloatValue(packageName, "correction", 0.01f);
-        boolean showMessageOnError = attrs.getAttributeBooleanValue(packageName, "showMessageOnError", true);
-        boolean autoCorrectOnError = attrs.getAttributeBooleanValue(packageName, "autoCorrectOnError", true);
-
-        this.mInterval = new DoubleInterval(range);
+        this.mInterval = (range==null)?DoubleInterval.getDefaultDoubleInterval():new DoubleInterval(range);
         this.mInterval.setCorrectionValue(correction);
-        this.showMessageOnError = showMessageOnError;
-        this.autoCorrectOnError = autoCorrectOnError;
         setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL | InputType.TYPE_NUMBER_FLAG_SIGNED);
     }
 

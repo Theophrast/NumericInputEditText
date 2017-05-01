@@ -31,6 +31,14 @@ public abstract class InputEditTextBase extends EditText {
         this.autoCorrectOnError = autoCorrectOnError;
     }
 
+    protected void setBaseAttributes(Context context, AttributeSet attrs) {
+        String packageName = "http://schemas.android.com/apk/res-auto";
+        boolean showMessageOnError = attrs.getAttributeBooleanValue(packageName, "show_message_on_error", true);
+        boolean autoCorrectOnError = attrs.getAttributeBooleanValue(packageName, "autocorrect_on_error", true);
+        this.showMessageOnError = showMessageOnError;
+        this.autoCorrectOnError = autoCorrectOnError;
+    }
+
     /**
      * Set the valid range of the EditText input.
      * <p>

@@ -34,9 +34,9 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:id="@+id/et_intinput"
-        numericinput:showMessageOnError="true"
-        numericinput:autoCorrectOnError="true"
-        numericinput:validRange="[0,100]"
+        numericinput:show_message_on_error="true"
+        numericinput:autocorrect_on_error="true"
+        numericinput:valid_range="[0,100]"
         />
 
     <Button
@@ -65,9 +65,9 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:id="@+id/et_floatinput"
-        numericinput:showMessageOnError="true"
-        numericinput:autoCorrectOnError="true"
-        numericinput:validRange="]0f,1f]"
+        numericinput:show_message_on_error="true"
+        numericinput:autocorrect_on_error="true"
+        numericinput:valid_range="]0f,1f]"
         numericinput:correction="0.1"
         />
 

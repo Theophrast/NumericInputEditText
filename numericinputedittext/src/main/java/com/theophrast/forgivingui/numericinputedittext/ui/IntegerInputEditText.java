@@ -43,15 +43,11 @@ public class IntegerInputEditText extends InputEditTextBase {
 
     private void setAttributes(Context context, AttributeSet attrs) {
         if (attrs == null) return;
+        setBaseAttributes(context,attrs);
         String packageName = "http://schemas.android.com/apk/res-auto";
-        String range = attrs.getAttributeValue(packageName, "validRange");
-        boolean showMessageOnError = attrs.getAttributeBooleanValue(packageName, "showMessageOnError", true);
-        boolean autoCorrectOnError = attrs.getAttributeBooleanValue(packageName, "autoCorrectOnError", true);
+        String range = attrs.getAttributeValue(packageName, "valid_range");
 
-        this.mInterval = new IntegerInterval(range);
-        this.showMessageOnError = showMessageOnError;
-        this.autoCorrectOnError = autoCorrectOnError;
-
+        this.mInterval = (range==null)?IntegerInterval.getDefaultIntegerInterval():new IntegerInterval(range);
         setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_SIGNED);
     }
 

@@ -2,10 +2,10 @@
 <resources>
 
     <declare-styleable name="NumericInputEditText">
-        <attr name="validRange" format="string" />
-        <attr name="correction" format="float" />
-        <attr name="showMessageOnError" format="boolean" />
-        <attr name="autoCorrectOnError" format="boolean" />
+        <attr name="valid_range" format="string|reference" />
+        <attr name="correction" format="float|reference" />
+        <attr name="show_message_on_error" format="boolean" />
+        <attr name="autocorrect_on_error" format="boolean" />
     </declare-styleable>
 
 </resources>

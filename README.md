@@ -52,9 +52,9 @@ You can also specify the parameters from layout:
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/et_intinput"
-        numericinput:showMessageOnError="true"
-        numericinput:autoCorrectOnError="true"
-        numericinput:validRange="[0,100]"
+        numericinput:show_message_on_error="true"
+        numericinput:autocorrect_on_error="true"
+        numericinput:valid_range="[0,100]"
         />
 ```
 To float value input use this:
@@ -65,10 +65,10 @@ To float value input use this:
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/et_floatinput"
-        numericinput:showMessageOnError="true"
-        numericinput:autoCorrectOnError="true"
+        numericinput:show_message_on_error="true"
+        numericinput:autocorrect_on_error="true"
         numericinput:correction="0.1"
-        numericinput:validRange="]0f,1f]"
+        numericinput:valid_range="]0f,1f]"
         />
 
 ```
@@ -78,7 +78,7 @@ Check the sample for more details.
 ```groovy
     dependencies{
         ...
-        compile 'com.theophrast.forgivingui.numericinputedittext:numericinputedittext:1.0.1'
+        compile 'com.theophrast.forgivingui.numericinputedittext:numericinputedittext:1.0.2'
     }
 ```
 
@@ -111,7 +111,7 @@ String interval = "[1,6]"
 ```
 from layout.xml:
 ```xml
-        numericinput:validRange="[0,100]"
+        numericinput:valid_range="[0,100]"
 ```
 ##### Input interval for a material temperature in laboratory (float - °C):
 Enabled values are from ‒273,15f to positive infinite

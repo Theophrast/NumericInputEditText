@@ -68,6 +68,7 @@
         numericinput:showMessageOnError="true"
         numericinput:autoCorrectOnError="true"
         numericinput:validRange="]0f,1f]"
+        numericinput:correction="0.1"
         />
 
     <Button

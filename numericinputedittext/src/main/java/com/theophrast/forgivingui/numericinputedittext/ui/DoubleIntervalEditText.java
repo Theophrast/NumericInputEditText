@@ -60,6 +60,10 @@ public class DoubleIntervalEditText extends InputEditTextBase {
         this.mInterval = new DoubleInterval(validInterval);
     }
 
+    public void setCorrectionValue(float correction) {
+        this.mInterval.setCorrectionValue(correction);
+    }
+
     @Override
     public boolean isValid() {
         return isValid(false);
